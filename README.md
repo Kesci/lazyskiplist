@@ -1,5 +1,5 @@
-![GoDoc](https://godoc.org/github.com/golang/gddo?status.svg)
-![Go Report Card](https://goreportcard.com/badge/github.com/Kesci/lazyskiplist)
+[![GoDoc](https://godoc.org/github.com/golang/gddo?status.svg)](https://godoc.org/github.com/Kesci/lazyskiplist)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Kesci/lazyskiplist)](https://goreportcard.com/report/github.com/Kesci/lazyskiplist)
 
 # lazyskiplist
 
