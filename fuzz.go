@@ -7,12 +7,14 @@ import (
 	"github.com/petermattis/goid"
 )
 
+// Fuzz fuzz test
 func Fuzz(data []byte) int {
-	Debugf("input data")
+	//TurnOnDebug()
+	debugf("input data")
 	for _, d := range data {
-		Debugf("%d ,", int(d))
+		debugf("%d ,", int(d))
 	}
-	Debugf("")
+	debugf("")
 
 	var l = New(func(v1, v2 interface{}) bool {
 		i1 := v1.(int)
@@ -23,14 +25,14 @@ func Fuzz(data []byte) int {
 	var wait sync.WaitGroup
 	for _, d := range data {
 		if rand.Int()%2 == 0 {
-			Debugf("[%d] add %d", goid.Get(), int(d))
+			debugf("[%d] add %d", goid.Get(), int(d))
 			wait.Add(1)
 			go func(i int) {
 				l.Add(i)
 				wait.Done()
 			}(int(d))
 		} else {
-			Debugf("[%d] delete %d", goid.Get(), int(d))
+			debugf("[%d] delete %d", goid.Get(), int(d))
 			wait.Add(1)
 			go func(i int) {
 				l.Remove(i)
@@ -47,21 +49,20 @@ func Fuzz(data []byte) int {
 				if !ok {
 					return
 				}
-				Debugf("[%d] [", goid.Get())
-				defer Debugf("[%d] ]", goid.Get())
+				debugf("[%d] [", goid.Get())
+				defer debugf("[%d] ]", goid.Get())
 
-				Debugf("[%d] %d", goid.Get(), v.(int))
+				debugf("[%d] %d", goid.Get(), v.(int))
 				prev := v
 				for {
 					v, ok := iter.Next()
 					if !ok {
 						return
 					}
-					Debugf("[%d] %d", goid.Get(), v.(int))
+					debugf("[%d] %d", goid.Get(), v.(int))
 					if prev.(int) >= v.(int) {
 
 						panic("not sorted")
-						return
 					}
 					prev = v
 				}
