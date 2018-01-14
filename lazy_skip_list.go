@@ -71,8 +71,20 @@ func New(less func(v1, v2 interface{}) bool, equal ...func(v1, v2 interface{}) b
 		}
 		return less(v1, v2)
 	}
+
 	if len(equal) != 0 {
-		l.equal = equal[0]
+		l.equal = func(v1, v2 interface{}) bool {
+			if _, ok := v1.(lSentinal); ok {
+				return false
+			}
+			if _, ok := v1.(rSentinal); ok {
+				return false
+			}
+			if _, ok := v2.(rSentinal); ok {
+				return false
+			}
+			return equal[0](v1, v2)
+		}
 	}
 	return l
 }
@@ -88,7 +100,7 @@ func (l *LazySkipList) findNode(v interface{}, preds []*Node, succs []*Node) (fo
 			curr = pred.nexts[layer]
 		}
 		// TODO: customize equal
-		if found == -1 && v == curr.Value {
+		if found == -1 && l.equal(v, curr.Value) {
 			debugf("[%d/findNode] find value %#v at layer %d", goid.Get(), v, layer)
 			found = layer
 		}

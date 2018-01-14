@@ -5,9 +5,7 @@ import (
 )
 
 func Test(t *testing.T) {
-	l := New(func(v1, v2 interface{}) bool {
-		return v1.(int) < v2.(int)
-	})
+	l := New(func(v1, v2 interface{}) bool { return v1.(int) < v2.(int) }, func(v1, v2 interface{}) bool { return v1.(int) == v2.(int) })
 	l.Add(1)
 	l.Add(2)
 	l.Add(3)

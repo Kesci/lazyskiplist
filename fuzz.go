@@ -16,11 +16,10 @@ func Fuzz(data []byte) int {
 	}
 	debugf("")
 
-	var l = New(func(v1, v2 interface{}) bool {
-		i1 := v1.(int)
-		i2 := v2.(int)
-		return i1 < i2
-	})
+	var l = New(
+		func(v1, v2 interface{}) bool { return v1.(int) < v2.(int) },
+		func(v1, v2 interface{}) bool { return v1.(int) == v2.(int) },
+	)
 
 	var wait sync.WaitGroup
 	for _, d := range data {
